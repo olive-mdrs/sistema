@@ -42,7 +42,10 @@ bool adicionarNoticia(vector<Noticia>& bancoNoticias, const string& texto, const
     if (classificacao != CLASSIFICACAO_CONFIAVEL &&
         classificacao != CLASSIFICACAO_DUVIDOSA &&
         classificacao != CLASSIFICACAO_FALSA){
+        novaNoticia.classificacao = CLASSIFICACAO_DUVIDOSA;
         cout << "Classificacao vazia ou invalida: o texto sera automaticamente classificado como duvidoso." << endl; 
+    } else {
+        novaNoticia.classificacao = classificacao;
     }
 
     bancoNoticias.push_back(novaNoticia);
