@@ -13,11 +13,23 @@ struct Noticia {
     string classificacao;
 };
 
+/**
+ * @brief Checa se uma string contém apenas espaços e/ou caracteres invisiveis
+ * @param str string a ser checada
+ */
 bool contemApenasEspacos(const string& str){
     return str.find_first_not_of(" \t\n\v\f\r") == string::npos;
 }
 
-//antiga função "que faz tudo" adotando PRU
+/**
+ * @brief Adiciona uma nova notícia à base de dados.
+ *
+ * Se a classificação não for informada ou não for uma das classificações pré-existentes, assume "duvidosa" como padrão.
+ * Se o texto for vazio ou conter apenas espaços, exibe mensagem de erro e não insere.
+ *
+ * @param texto Texto da notícia. Se vazio, a função apenas imprime "erro" (mudar pra throw?).
+ * @param classificacao Classificação desejada. Se omitida ou vazia, usa "duvidosa".
+ */
 bool adicionarNoticia(vector<Noticia>& bancoNoticias, const string& texto, const string& classificacao = "") {
     if (texto.empty() || contemApenasEspacos(texto)) {
         cerr << "Erro: Texto da noticia é vazio ou invalido." << endl;
@@ -37,6 +49,23 @@ bool adicionarNoticia(vector<Noticia>& bancoNoticias, const string& texto, const
     return true;
 }
 
+/**
+ * @brief Analisa um texto e retorna sua classificação baseada em regras simples.
+ *
+ * Critérios:
+ * - Ausência da palavra "FONTE" - aumenta o score.
+ * - Presença de "!!!" - aumenta o score (linguagem sensacionalista).
+ * - Presença de "URGENTE" - aumenta o score.
+ * - Texto com menos de 10 caracteres - aumenta o score.
+ *
+ * Retorno:
+ * - score 0 → "confiavel"
+ * - score 1 → "duvidosa"
+ * - score >=2 → "falsa"
+ *
+ * @param texto Texto a ser analisado.
+ * @return string Classificação resultante.
+ */
 string analisarConfiabilidade(const string& texto) {
     int pontuacaoFakeNews = 0;
     
@@ -62,6 +91,11 @@ string analisarConfiabilidade(const string& texto) {
     }
 }
 
+/**
+ * @brief Função de suporte para ler inputs
+ * @param mensagem texto a ser printado na tela antes de receber o input
+ * @return entrada entrada digitada pelo usuario
+ */
 string lerEntrada(const string& mensagem) {
     cout << mensagem;
     string entrada;
@@ -69,7 +103,9 @@ string lerEntrada(const string& mensagem) {
     return entrada;
 }
 
-//antiga func2
+/**
+ * @brief Lista todas as notícias cadastradas, exibindo texto e classificação.
+ */
 void exibirNoticias(const vector<Noticia>& bancoNoticias) {
 
     if (bancoNoticias.empty()){
@@ -84,7 +120,12 @@ void exibirNoticias(const vector<Noticia>& bancoNoticias) {
     }
 }
 
-//antiga função "que faz tudo"
+/**
+ * @brief Interface para adicionar uma notícia com classificação manual.
+ *
+ * Solicita texto e classificação ao usuário. Se a classificação for deixada em branco,
+ * a função 'adicionarNoticia' assumirá o valor padrão "duvidosa".
+ */
 void interagirAdicaoManual(vector<Noticia>& bancoNoticias) {
     string texto = lerEntrada("Digite o texto: ");
     string classificacao = lerEntrada("Digite classificacao: ");
@@ -92,7 +133,12 @@ void interagirAdicaoManual(vector<Noticia>& bancoNoticias) {
     adicionarNoticia(bancoNoticias, texto, classificacao);
 }
 
-//antiga função "que faz tudo"
+/**
+ * @brief Interface para adicionar uma notícia com classificação automática.
+ *
+ * Solicita apenas o texto, a classificação é determinada pela função 'analisarConfiabilidade'.
+ * 
+ */
 void interagirAdicaoAutomatica(vector<Noticia>& bancoNoticias) {
     string texto = lerEntrada("Digite o texto: ");
     string classificacao = analisarConfiabilidade(texto);
@@ -100,6 +146,15 @@ void interagirAdicaoAutomatica(vector<Noticia>& bancoNoticias) {
     adicionarNoticia(bancoNoticias, texto, classificacao);
 }
 
+/**
+ * @brief Exibe o menu principal e direciona para as operações escolhidas.
+ *
+ * Opções:
+ * 1 - Adicionar notícia manualmente
+ * 2 - Adicionar notícia com classificação automática
+ * 3 - Listar todas as notícias
+ * 4 - Sair
+ */
 void executarMenu(vector<Noticia>& bancoNoticias) {
     while (true) {
         cout << "1 - adicionar manual" << endl;
@@ -124,6 +179,13 @@ void executarMenu(vector<Noticia>& bancoNoticias) {
     }
 }
 
+/**
+ * @brief Ponto de entrada do programa.
+ *
+ * Inicia o menu principal.
+ *
+ * @return int Código de saída (0 indica sucesso).
+ */
 int main() {
     vector<Noticia> bancoDeNoticias;
     executarMenu(bancoDeNoticias);
