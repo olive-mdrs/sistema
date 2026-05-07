@@ -13,15 +13,25 @@ struct Noticia {
     string classificacao;
 };
 
+bool contemApenasEspacos(const string& str){
+    return str.find_first_not_of(" \t\n\v\f\r") == string::npos;
+}
+
 //antiga função "que faz tudo" adotando PRU
 bool adicionarNoticia(vector<Noticia>& bancoNoticias, const string& texto, const string& classificacao = "") {
-    if (texto.empty()) {
+    if (texto.empty() || contemApenasEspacos(texto)) {
+        cerr << "Erro: Texto da noticia é vazio ou invalido." << endl;
         return false; 
     }
 
     Noticia novaNoticia;
     novaNoticia.texto = texto;
     novaNoticia.classificacao = classificacao.empty() ? CLASSIFICACAO_DUVIDOSA : classificacao;
+    if (classificacao != CLASSIFICACAO_CONFIAVEL &&
+        classificacao != CLASSIFICACAO_DUVIDOSA &&
+        classificacao != CLASSIFICACAO_FALSA){
+        cout << "Classificacao vazia ou invalida: o texto sera automaticamente classificado como duvidoso." << endl; 
+    }
 
     bancoNoticias.push_back(novaNoticia);
     return true;
@@ -61,6 +71,12 @@ string lerEntrada(const string& mensagem) {
 
 //antiga func2
 void exibirNoticias(const vector<Noticia>& bancoNoticias) {
+
+    if (bancoNoticias.empty()){
+        cout << "\nO banco de noticias esta vazio.\n" << endl;
+        return;
+    }
+
     for (const auto& noticia : bancoNoticias) {
         cout << "Texto: " << noticia.texto << endl;
         cout << "Classificacao: " << noticia.classificacao << endl;
@@ -73,9 +89,7 @@ void interagirAdicaoManual(vector<Noticia>& bancoNoticias) {
     string texto = lerEntrada("Digite o texto: ");
     string classificacao = lerEntrada("Digite classificacao: ");
 
-    if (!adicionarNoticia(bancoNoticias, texto, classificacao)) {
-        cout << "erro" << endl;
-    }
+    adicionarNoticia(bancoNoticias, texto, classificacao);
 }
 
 //antiga função "que faz tudo"
@@ -83,9 +97,7 @@ void interagirAdicaoAutomatica(vector<Noticia>& bancoNoticias) {
     string texto = lerEntrada("Digite o texto: ");
     string classificacao = analisarConfiabilidade(texto);
     
-    if (!adicionarNoticia(bancoNoticias, texto, classificacao)) {
-        cout << "erro" << endl;
-    }
+    adicionarNoticia(bancoNoticias, texto, classificacao);
 }
 
 void executarMenu(vector<Noticia>& bancoNoticias) {
@@ -107,7 +119,7 @@ void executarMenu(vector<Noticia>& bancoNoticias) {
         } else if (opcao == "4") {
             break;
         } else {
-            cout << "errado" << endl;
+            cout << "Erro: '" << opcao << "' nao e uma opcao valida. Tente novamente." << endl; 
         }
     }
 }
