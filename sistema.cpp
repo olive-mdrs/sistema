@@ -1,19 +1,41 @@
+/**
+ * @file sistema.cpp
+ * @brief Sistema de Monitoramento de Fake News e Qualidade da Informação (versão inicial).
+ *
+ * Permite inserir textos de notícias, classificá‑las como confiável, duvidosa ou falsa
+ * com base em critérios simples (ausência de fonte, linguagem sensacionalista, tamanho),
+ * e listar as notícias cadastradas.
+ *
+ * @note Este código é a base para o trabalho de Boas Práticas de Programação.
+ */
+
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
 
+/**
+ * @brief Estrutura que representa uma notícia. (Deletar comentário no futuro)
+ */
 struct D {
   string t;
   string c;
 };
 
+/// Base de dados de notícias (Deletar)
 vector<D> data;
 
-// função que faz tudo
+/**
+ * @brief Adiciona uma nova notícia à base de dados.
+ *
+ * Se a classificação não for informada, assume "duvidosa" como padrão.
+ * Se o texto for vazio, exibe "erro" e não insere.
+ *
+ * @param a Texto da notícia. Se vazio, a função apenas imprime "erro" (mudar pra throw?).
+ * @param b Classificação desejada. Se omitida ou vazia, usa "duvidosa".
+ */
 void f(string a, string b = "") {
-  // adiciona coisa
   if (a != "") {
     D d;
     d.t = a;
@@ -25,13 +47,15 @@ void f(string a, string b = "") {
     }
 
     data.push_back(d);
-  } else {
+  } else { // MELHORAR (exceção, log, etc.)
     cout << "erro" << endl;
   }
 }
 
+/**
+ * @brief Lista todas as notícias cadastradas, exibindo texto e classificação.
+ */
 void func2() {
-  // lista tudo
   for (int i = 0; i < data.size(); i++) {
     cout << "Texto: " << data[i].t << endl;
     cout << "Classificacao: " << data[i].c << endl;
@@ -39,6 +63,23 @@ void func2() {
   }
 }
 
+/**
+ * @brief Analisa um texto e retorna sua classificação baseada em regras simples.
+ *
+ * Critérios:
+ * - Ausência da palavra "FONTE" - aumenta o score.
+ * - Presença de "!!!" - aumenta o score (linguagem sensacionalista).
+ * - Presença de "URGENTE" - aumenta o score.
+ * - Texto com menos de 10 caracteres - aumenta o score.
+ *
+ * Retorno:
+ * - score 0 → "confiavel"
+ * - score 1 → "duvidosa"
+ * - score >=2 → "falsa"
+ *
+ * @param txt Texto a ser analisado.
+ * @return string Classificação resultante.
+ */
 string analisar(string txt) {
   int score = 0;
 
@@ -64,8 +105,14 @@ string analisar(string txt) {
   }
 }
 
+/**
+ * @brief Interface para adicionar uma notícia com classificação manual.
+ *
+ * Solicita texto e classificação ao usuário. Se a classificação for deixada em branco,
+ * a função 'f' (MUDAR) assumirá o valor padrão "duvidosa".
+ */
 void add_manual() {
-  string t, c;
+  string t, c; // VALIDAR ENTRADAS (c deveria ser confiavel, duvidosa ou falsa?)
 
   cout << "Digite o texto: ";
   getline(cin, t);
@@ -80,6 +127,11 @@ void add_manual() {
   }
 }
 
+/**
+ * @brief Interface para adicionar uma notícia com classificação automática.
+ *
+ * Solicita apenas o texto, a classificação é determinada pela função 'analisar' (MUDAR?).
+ */
 void add_auto() {
   string t;
 
@@ -90,9 +142,19 @@ void add_auto() {
   f(t, c);
 }
 
+/**
+ * @brief Exibe o menu principal e direciona para as operações escolhidas.
+ *
+ * Opções:
+ * 1 - Adicionar notícia manualmente
+ * 2 - Adicionar notícia com classificação automática
+ * 3 - Listar todas as notícias
+ * 4 - Sair
+ */
+
 void menu() {
   while (true) {
-    cout << "1 - adicionar manual" << endl;
+    cout << "1 - adicionar manual" << endl // MUDAR TEXTOS?
     cout << "2 - adicionar automatico" << endl;
     cout << "3 - listar" << endl;
     cout << "4 - sair" << endl;
@@ -114,7 +176,13 @@ void menu() {
   }
 }
 
-// inicia programa
+/**
+ * @brief Ponto de entrada do programa.
+ *
+ * Inicia o menu principal.
+ *
+ * @return int Código de saída (0 indica sucesso).
+ */
 int main() {
   menu();
   return 0;
