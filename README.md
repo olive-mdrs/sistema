@@ -38,3 +38,31 @@ Como o projeto utiliza uma estrutura modular, é necessário indicar ao compilad
 
 ```bash
 g++ -I include src/main.cpp src/modelo.cpp src/servico.cpp src/interface.cpp -o sistema
+```
+Em terminais Linux/Mac ou no Git Bash do Windows, você pode simplificar usando g++ -I include src/*.cpp -o sistema
+## Execução
+```bash
+./sistema
+```
+## Estrutura do Projeto
+```bash
+.
+├── include/           # Arquivos de cabeçalho (.h) contendo as declarações
+│   ├── interface.h
+│   ├── modelo.h
+│   └── servico.h
+├── src/               # Arquivos de código-fonte (.cpp) contendo as implementações
+│   ├── interface.cpp  # Lida com a interação com o usuário (menus, entrada e saída de tela) 
+│   ├── main.cpp       # Ponto de entrada do programa, responsável por inicializar o sistema
+│   ├── modelo.cpp     # Contém as estruturas de dados (Noticia) e constantes 
+│   └── servico.cpp    # Lógica de negócios (regras de classificação, validações e banco) 
+└── README.md── sistema.cpp
+```
+## Contexto e Melhorias Aplicadas
+Esse é um projeto da disciplina **DIM0501 – Boas Práticas de Programação** da Universidade Federal do Rio Grande do Norte (UFRN). A partir de uma implementação inicial do código fornecida pelo professor, foram dadas ao grupo as seguintes tarefas:
+- Identificação de problemas (legibilidade, organização, code smells)
+- Refatorar nomes e funções (renomear variáveis, estruturas, funções)
+- Organizar em módulos (separação de responsabilidades)
+- Adicionar validações (programação defensiva, tratamento de erros)
+- Melhorar documentação (comentários úteis, README, docstrings)
+Com a execução delas, esse é o resultado.
