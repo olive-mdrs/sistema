@@ -65,4 +65,5 @@ Esse é um projeto da disciplina **DIM0501 – Boas Práticas de Programação**
 - Organizar em módulos (separação de responsabilidades)
 - Adicionar validações (programação defensiva, tratamento de erros)
 - Melhorar documentação (comentários úteis, README, docstrings)
+
 Com a execução delas, esse é o resultado.
