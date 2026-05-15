@@ -56,7 +56,7 @@ Em terminais Linux/Mac ou no Git Bash do Windows, você pode simplificar usando 
 │   ├── main.cpp       # Ponto de entrada do programa, responsável por inicializar o sistema
 │   ├── modelo.cpp     # Contém as estruturas de dados (Noticia) e constantes 
 │   └── servico.cpp    # Lógica de negócios (regras de classificação, validações e banco) 
-└── README.md── sistema.cpp
+└── README.md
 ```
 ## Contexto e Melhorias Aplicadas
 Esse é um projeto da disciplina **DIM0501 – Boas Práticas de Programação** da Universidade Federal do Rio Grande do Norte (UFRN). A partir de uma implementação inicial do código fornecida pelo professor, foram dadas ao grupo as seguintes tarefas:
